@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   Developer / IDE — mono furniture, sans body.
+   Dark (editor) is the default; light toggles via absence of .dark
+   ───────────────────────────────────────────────────────────── */
+
+@layer base {
+  /* Light — "editor light theme" */
+  :root {
+    --bg: #ffffff;
+    --bg-2: #f6f8fa;
+    --bg-3: #eaeef2;
+    --ink: #1f2328;
+    --ink-soft: #59636e;
+    --ink-faint: #818b98;
+    --line: #d1d9e0;
+    --accent: #0969da;
+    --accent-soft: rgba(9, 105, 218, 0.1);
+    --green: #1a7f37;
+    --purple: #8250df;
+    --amber: #9a6700;
+    color-scheme: light;
+  }
+
+  /* Dark — the default, tuned on a GitHub-dark style base */
+  html.dark {
+    --bg: #0d1117;
+    --bg-2: #151b23;
+    --bg-3: #1f262e;
+    --ink: #e6edf3;
+    --ink-soft: #9198a1;
+    --ink-faint: #6b7681;
+    --line: #2a313c;
+    --accent: #4493f8;
+    --accent-soft: rgba(68, 147, 248, 0.14);
+    --green: #3fb950;
+    --purple: #ab7df8;
+    --amber: #d29922;
+    color-scheme: dark;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  ::selection { background: var(--accent-soft); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full px-6; max-width: 1120px; }
+  .wrap-tight { @apply mx-auto w-full px-6; max-width: 840px; }
+
+  /* ── Type roles ──
+     Headings are mono (the developer signal); body stays Inter. */
+  .display {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--ink);
+  }
+  .h2 {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700; letter-spacing: -0.025em; line-height: 1.15;
+    color: var(--ink); font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  }
+  .h3 {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 600; letter-spacing: -0.015em; color: var(--ink);
+    font-size: 1.15rem;
+  }
+  .lead { color: var(--ink-soft); font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.65; }
+  .body { color: var(--ink-soft); line-height: 1.75; }
+
+  /* Pull quote: mono, no italic serif flourish */
+  .pull {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500; color: var(--ink); letter-spacing: -0.02em;
+    line-height: 1.4;
+  }
+
+  /* ── Developer furniture ── */
+
+  /* Section labels read as code comments: // what i do */
+  .eyebrow {
+    font: 500 13px/1 'JetBrains Mono', ui-monospace, monospace;
+    letter-spacing: 0; text-transform: lowercase; color: var(--ink-faint);
+  }
+  .eyebrow::before { content: '// '; color: var(--green); }
+
+  .label-row { @apply flex items-center gap-4; }
+  .label-row::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .rule { border: 0; border-top: 1px solid var(--line); }
+
+  /* No dropcap in a developer look — reset it to a normal paragraph. */
+  .dropcap::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
+
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-md px-2 py-0.5;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    background: var(--bg-2); border: 1px solid var(--line);
+    font-size: 12px; color: var(--ink-soft);
+  }
+
+  .arrow {
+    @apply inline-flex items-center gap-2;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 14px; color: var(--accent);
+  }
+  .arrow svg { transition: transform 0.25s ease; }
+  .arrow:hover svg { transform: translateX(4px); }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500; font-size: 14px;
+    background: var(--accent); color: #fff;
+    border: 1px solid transparent;
+    transition: filter 0.2s ease, transform 0.15s ease;
+  }
+  .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500; font-size: 14px;
+    background: var(--bg-2); border: 1px solid var(--line); color: var(--ink);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-outline:hover { border-color: var(--accent); background: var(--bg-3); }
+
+  /* Index numerals — tabular mono, like line numbers */
+  .num {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500; font-size: 13px;
+    color: var(--ink-faint); font-variant-numeric: tabular-nums;
+  }
+
+  .masthead {
+    @apply sticky top-0 z-50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* Nav links as file paths */
+  .nav-link {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px; color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+  .nav-link:hover { color: var(--accent); }
+
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-md px-2.5 py-1;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    background: var(--bg-2); border: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-soft);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+  .field {
+    @apply w-full rounded-md px-3 py-2.5;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 14px;
+    background: var(--bg-2); border: 1px solid var(--line);
+    color: var(--ink); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .field::placeholder { color: var(--ink-faint); }
+
+  .work-row { border-top: 1px solid var(--line); transition: background 0.2s ease; }
+  .work-row:hover { background: var(--bg-2); }
+
+  /* Card surface — the panel look that carries the dev-tool feel */
+  .card {
+    @apply rounded-lg;
+    background: var(--bg-2); border: 1px solid var(--line);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .card:hover { border-color: var(--ink-faint); }
+
+  /* Terminal/editor window chrome */
+  .window {
+    @apply rounded-lg overflow-hidden;
+    background: var(--bg-2); border: 1px solid var(--line);
+  }
+  .window-bar {
+    @apply flex items-center gap-2 px-4 py-2.5;
+    background: var(--bg-3); border-bottom: 1px solid var(--line);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px; color: var(--ink-faint);
+  }
+  .dot { @apply inline-block rounded-full; width: 11px; height: 11px; }
+
+  /* Inline code token */
+  .code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.9em; padding: 1px 5px; border-radius: 4px;
+    background: var(--bg-3); color: var(--accent);
+  }
+
+  /* Syntax-ish accents for hero code block */
+  .tok-key { color: var(--purple); }
+  .tok-str { color: var(--green); }
+  .tok-num { color: var(--amber); }
+  .tok-com { color: var(--ink-faint); }
+  .tok-fn  { color: var(--accent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover, .arrow:hover svg { transform: none; }
+}
+
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line); border: 3px solid var(--bg); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
