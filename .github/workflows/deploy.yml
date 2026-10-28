@@ -1,0 +1,59 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      # Build on the runner, not on EC2 — the t3.micro has ~900MB RAM
+      # and `vite build` can OOM there.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+
+      # --delete removes files that no longer exist in the build.
+      # index.html is sent last so users never get a new index that
+      # references assets which haven't landed yet.
+      - name: Deploy
+        run: |
+          rsync -avz --delete \
+            --exclude 'index.html' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            dist/ "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/portfolio/"
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes" \
+            dist/index.html "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/var/www/portfolio/index.html"
+
+      - name: Verify site responds
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' "http://${{ secrets.EC2_HOST }}/")
+          echo "HTTP $code"
+          test "$code" = "200"
+
+      - name: Clean up key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
