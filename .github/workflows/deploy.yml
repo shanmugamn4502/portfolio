@@ -50,7 +50,7 @@ jobs:
 
       - name: Verify site responds
         run: |
-          code=$(curl -s -o /dev/null -w '%{http_code}' "http://${{ secrets.EC2_HOST }}/")
+          code=$(curl -s -o /dev/null -w '%{http_code}' "https://shanmugam.is-a.dev/")
           echo "HTTP $code"
           test "$code" = "200"
 
