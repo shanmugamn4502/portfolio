@@ -1,13 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-const ThemeContext = createContext({ theme: 'dark', toggle: () => {} })
+const ThemeContext = createContext({ theme: 'light', toggle: () => {} })
 
-// Developer-first: dark is the default, light is opt-in.
+// Friendly-first: light is the default, dark is opt-in.
 function read() {
   try {
-    return localStorage.getItem('theme') === 'light' ? 'light' : 'dark'
+    return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'
   } catch {
-    return 'dark'
+    return 'light'
   }
 }
 

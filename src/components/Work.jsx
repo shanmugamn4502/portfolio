@@ -1,3 +1,4 @@
+import { m } from 'framer-motion'
 import { projects } from '../data'
 
 function ArrowIcon() {
@@ -24,7 +25,7 @@ export default function Work() {
     <section id="work" className="py-20 sm:py-24">
       <div className="wrap">
         <div className="label-row">
-          <span className="eyebrow">selected work</span>
+          <span className="eyebrow">My work</span>
         </div>
 
         <h2 className="h2 mt-5 max-w-3xl">Projects I&rsquo;m proud of.</h2>
@@ -37,20 +38,24 @@ export default function Work() {
         <div className="mt-12 overflow-hidden rounded-lg" style={{ border: '1px solid var(--line)' }}>
           {/* list header, like a repo browser */}
           <div
-            className="flex items-center gap-2 px-5 py-2.5 font-mono text-xs"
+            className="flex items-center gap-2 px-5 py-2.5 text-xs"
             style={{ background: 'var(--bg-3)', color: 'var(--ink-faint)' }}
           >
             <RepoIcon />
-            <span>{projects.length} repositories</span>
+            <span>{projects.length} projects</span>
           </div>
 
           {projects.map((p, i) => {
             const tags = p.tag.split('·').map((t) => t.trim()).filter(Boolean)
             return (
-              <a
+              <m.a
                 key={p.title}
                 href={p.link}
                 className="work-row group grid grid-cols-1 gap-4 px-5 py-6 sm:grid-cols-12 sm:gap-6 sm:items-start"
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.45, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="flex items-center gap-3 sm:col-span-7">
                   <span className="num shrink-0">{String(i + 1).padStart(2, '0')}</span>
@@ -73,7 +78,7 @@ export default function Work() {
                     </span>
                   </span>
                 </div>
-              </a>
+              </m.a>
             )
           })}
         </div>

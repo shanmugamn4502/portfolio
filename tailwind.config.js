@@ -16,16 +16,14 @@ export default {
         },
         line: 'var(--line)',
         accent: 'var(--accent)',
-        term: {
-          green: 'var(--green)',
-          purple: 'var(--purple)',
-          amber: 'var(--amber)',
-        },
+        'accent-2': 'var(--accent-2)',
+        warm: 'var(--warm)',
+        ok: 'var(--ok)',
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        display: ['Sora', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       keyframes: {
         blink: {

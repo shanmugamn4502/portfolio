@@ -30,7 +30,7 @@ export default function Contact() {
     <section id="contact" className="py-20 sm:py-24">
       <div className="wrap">
         <div className="label-row">
-          <span className="eyebrow">get in touch</span>
+          <span className="eyebrow">Get in touch</span>
         </div>
         <h2 className="h2 mt-5 max-w-3xl">
           Let&rsquo;s build something worth talking about.
@@ -43,8 +43,8 @@ export default function Contact() {
 
         <div className="mt-12 lg:grid lg:grid-cols-2 lg:gap-6">
           {/* LEFT — contact details */}
-          <div className="card p-6">
-            <p className="eyebrow">say hello</p>
+          <div className="card card-hover p-6">
+            <p className="eyebrow">Contact details</p>
 
             <div className="mt-5 space-y-4">
               <div className="flex items-center gap-3">
@@ -53,7 +53,7 @@ export default function Contact() {
                 </span>
                 <a
                   href={`mailto:${profile.email}`}
-                  className="font-mono text-[13px]"
+                  className="text-[13px]"
                   style={{ color: 'var(--accent)' }}
                 >
                   {profile.email}
@@ -64,7 +64,7 @@ export default function Contact() {
                 <span className="mt-0.5" style={{ color: 'var(--ink-faint)' }}>
                   <PinIcon size={17} />
                 </span>
-                <span className="font-mono text-[13px]" style={{ color: 'var(--ink-soft)' }}>
+                <span className="text-[13px]" style={{ color: 'var(--ink-soft)' }}>
                   {profile.location}
                 </span>
               </div>
@@ -79,7 +79,7 @@ export default function Contact() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={key}
-                    className="flex h-10 w-10 items-center justify-center rounded-md transition-colors"
+                    className="flex h-10 w-10 items-center justify-center rounded-xl transition-colors"
                     style={{
                       border: '1px solid var(--line)',
                       background: 'var(--bg)',
@@ -97,13 +97,13 @@ export default function Contact() {
 
           {/* RIGHT — contact form */}
           <div className="card mt-4 p-6 lg:mt-0">
-            <p className="eyebrow">send a message</p>
+            <p className="eyebrow">Send me a message</p>
             <form onSubmit={handleSubmit} className="mt-5 space-y-2.5">
               <input
                 className="field"
                 type="text"
                 name="name"
-                placeholder="your name"
+                placeholder="Your name"
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -112,7 +112,7 @@ export default function Contact() {
                 className="field"
                 type="email"
                 name="email"
-                placeholder="your@email.com"
+                placeholder="Your email address"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -121,13 +121,13 @@ export default function Contact() {
                 className="field"
                 name="message"
                 rows={5}
-                placeholder="tell me about your project…"
+                placeholder="Tell me a little about your project…"
                 value={form.message}
                 onChange={handleChange}
                 required
               />
               <button type="submit" className="btn w-full">
-                send message
+                Send message
               </button>
             </form>
           </div>
