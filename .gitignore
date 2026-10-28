@@ -18,3 +18,14 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# secrets / keys — never commit
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+deploy_key*
+*_rsa
+*.crt
